@@ -1,4 +1,4 @@
-package com.example.chat2101;
+package com.example.chat2101_3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
-    EditText editTextMessage;
-    Button sendBtn;
-    TextView messageTextView;
+    EditText editTextMessage; // Поле для ввода сообщений
+    Button sendBtn; // Кнопка для отправки сообщений
+    TextView messageTextView; // TextView для вывода сообщений
     DataOutputStream out;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Сохраняем текст из поля ввода
                 String message = editTextMessage.getText().toString();
+                // Помещаем сообщение в поле вывода
                 messageTextView.append("Вы: "+message+"\n");
                 editTextMessage.setText("");
                 Thread thread = new Thread(new Runnable() {
@@ -48,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.1.8", 9178);
+                    Socket socket = new Socket("172.22.152.105", 9178);
                     out = new DataOutputStream(socket.getOutputStream());
                     DataInputStream in = new DataInputStream(socket.getInputStream());
                     while (true){
-                        String response = in.readUTF();
+                        String response = in.readUTF(); // Ждём сообщения от сервера
+                        // Запускаем поток который работает с GUI
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

@@ -1,4 +1,4 @@
-package com.example.chat2101;
+package com.example.chat2101_3;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.chat2101", appContext.getPackageName());
+        assertEquals("com.example.chat2101_3", appContext.getPackageName());
     }
 }

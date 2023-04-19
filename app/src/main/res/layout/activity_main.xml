@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
+    <!-- TextView для вывода сообщений -->
     <TextView
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-
+        <!-- Поле для ввода сообщений -->
         <EditText
             android:id="@+id/editTextMessage"
             android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name" />
-
+        <!-- Кнопка для отправки сообщений -->
         <Button
             android:id="@+id/sendBtn"
             android:layout_width="wrap_content"
