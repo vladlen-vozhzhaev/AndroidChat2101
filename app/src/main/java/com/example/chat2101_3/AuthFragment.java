@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +28,8 @@ public class AuthFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     AppCompatButton authBtn;
+    EditText loginEditText;
+    EditText passEditText;
 
     public AuthFragment() {
         // Required empty public constructor
@@ -64,11 +68,39 @@ public class AuthFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_auth, container, false);
         authBtn = view.findViewById(R.id.authBtn);
+        loginEditText = view.findViewById(R.id.loginEditText);
+        passEditText = view.findViewById(R.id.passEditText);
         authBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = AuthActivity.fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.mainFrame, new ChatFragment()).commit();
+                String login = loginEditText.getText().toString();
+                String pass = passEditText.getText().toString();
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(Connector.auth(login, pass)){
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    FragmentTransaction fragmentTransaction = AuthActivity.fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.mainFrame, new ChatFragment()).commit();
+                                }
+                            });
+                        }else{
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(
+                                            getActivity().getApplicationContext(),
+                                            "Неправильный логин или пароль",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+                thread.start();
+
             }
         });
         return view;

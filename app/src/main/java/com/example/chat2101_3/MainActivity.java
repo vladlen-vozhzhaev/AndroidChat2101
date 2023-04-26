@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editTextMessage = findViewById(R.id.editTextMessage);
+        /*editTextMessage = findViewById(R.id.editTextMessage);
         sendBtn = findViewById(R.id.sendBtn);
         messageTextView = findViewById(R.id.messageTextView);
         sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        thread.start();
+        thread.start();*/
     }
 }

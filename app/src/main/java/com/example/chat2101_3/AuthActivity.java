@@ -35,6 +35,14 @@ public class AuthActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.mainFrame, new AuthFragment()).commit();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Connector.connect(); // Подключаемся к серверу
+            }
+        });
+        thread.start();
+
         /*loginEditText = findViewById(R.id.loginEditText);
         passEditText = findViewById(R.id.passEditText);
         authBtn = findViewById(R.id.authBtn);

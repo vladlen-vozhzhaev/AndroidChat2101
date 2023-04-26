@@ -2,11 +2,14 @@ package com.example.chat2101_3;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +26,9 @@ public class ChatFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    TextView chatTextView;
+    EditText chatEditText;
+    AppCompatButton sendBtn;
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -58,7 +63,40 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        chatTextView = view.findViewById(R.id.chatTextView);
+        chatEditText = view.findViewById(R.id.chatEditText);
+        sendBtn = view.findViewById(R.id.sendBtn);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    String message = Connector.getMessage();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            chatTextView.append(message+"\n");
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = chatEditText.getText().toString();
+                chatTextView.append(message+"\n");
+                Thread sendMessageThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Connector.sendMessage(message);
+                    }
+                });
+                sendMessageThread.start();
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        return view;
     }
 }
